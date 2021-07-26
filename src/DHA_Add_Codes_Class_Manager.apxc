@@ -1,0 +1,46 @@
+public class DHA_Add_Codes_Class_Manager {
+   
+    @AuraEnabled
+    public static List<DQ_RM_Codes__c> findByName(String searchKey) {
+        
+   	list<DQ_RM_Codes__c> myList = new list<DQ_RM_Codes__c>();
+    String searchText =  + searchKey;
+   /* string soql = 'select name, id from DQ_RM_Codes__c where name != null';    
+       if (!searchText.equals(''))
+       soql += ' and name LIKE \''+String.escapeSingleQuotes(searchText)+'%\'';
+
+  	 myList = Database.query(soql);
+       system.debug('*** My List values ' + myList); 
+        return myList; */
+         return [SELECT id, Name, Short_Description__c, Long_Description__c, Body_System__c FROM DQ_RM_Codes__c WHERE (Name LIKE :searchKey)];
+    }    
+   
+    @AuraEnabled(cacheable=true)
+public static List<Codes_Relationship__c> getCodes(){
+    
+    List<Account> codesList = [SELECT Id, Code_Name__c, User_Input_Text__c,Short_Description__c, Body_System__c, case__c FROM Codes_Relationship__c WHERE Case__c = :recordId];
+    if (codesList != null && codesList.size() >0){
+        return accouncodesListtList;
+    }
+    return null;
+}
+    @AuraEnabled
+	public static String createCodeRelationship(String caseId, String codeId, String itemInput) {
+        Codes_Relationship__c cRelationship = new Codes_Relationship__c(
+            Case__c = caseId,
+            Code__c = codeId,
+            User_Input_Text__c = itemInput
+        );
+    	upsert cRelationship;
+        return codeId;
+	}
+    @AuraEnabled
+	public static List<Codes_Relationship__c> deleteRelationship(String codeRelationshipId) {
+		if(codeRelationshipId != null){
+ 			Codes_Relationship__c delCode=[Select Id from Codes_Relationship__c where id=:codeRelationshipId];
+			delete delCode;
+		}
+  		 return [Select Id, Name From Codes_Relationship__c LIMIT 5];
+	}
+ 
+}
