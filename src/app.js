@@ -1,5 +1,5 @@
-import { LightningElement,  wire, track, api } from 'lwc';
-import getCodes from '@salesforce/apex/DHA_Add_Codes_Class_Manager.getCodes';
+ import { LightningElement,  wire, track, api } from 'lwc';
+  import getCodes from '@salesforce/apex/DHA_Add_Codes_Class_Manager.getCodes';
 
 const Columns = [
     { label: 'Name', fieldName: 'Name', type: 'text' },
@@ -39,4 +39,4 @@ export default class SearchDataTable extends LightningElement {
         }
         this.searchedData = searchResults;
     }
-}
+} 
